@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State private var viewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack {
@@ -28,19 +27,19 @@ struct LoginView: View {
                 Spacer()
                 
                 VStack(spacing: 12) {
-                    TextField("Email", text: $email)
+                    TextField("Email", text: $viewModel.email)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                     
-                    SecureField("Password", text: $password)
+                    SecureField("Password", text: $viewModel.password)
                         .textFieldStyle(.roundedBorder)
                 }
                 
                 Spacer()
                 
                 Button {
-                    login()
+                    
                 } label: {
                     Text("Log In")
                         .frame(maxWidth: .infinity)
@@ -61,10 +60,6 @@ struct LoginView: View {
             .padding()
             .background(Color.background)
         }
-    }
-    
-    func login() {
-        print("email: \(email) | password: \(password)")
     }
 }
 
