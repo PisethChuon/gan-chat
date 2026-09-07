@@ -21,22 +21,27 @@ struct RegisterView: View {
             
             Text("Register with your email and password.")
             
+            Spacer()
+            
             TextField("Username", text: $username)
                 .textFieldStyle(.roundedBorder)
+                .autocorrectionDisabled(true)
             
             TextField("Email", text: $email)
                 .textFieldStyle(.roundedBorder)
+                .keyboardType(.emailAddress)
+                .autocapitalization(.none)
             
-            TextField("Password", text: $password)
+            SecureField("Password", text: $password)
                 .textFieldStyle(.roundedBorder)
             
-            TextField("Confirm Password", text: $confirmPassword)
+            SecureField("Confirm Password", text: $confirmPassword)
                 .textFieldStyle(.roundedBorder)
+            Spacer()
             
             Button("Register") {
                 register()
             }
-            .padding(.top)
             .buttonStyle(.bordered)
         }
         .padding()
