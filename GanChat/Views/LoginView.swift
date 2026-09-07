@@ -12,6 +12,7 @@ struct LoginView: View {
     @State private var password: String = ""
     
     var body: some View {
+        NavigationStack {
             VStack(spacing: 16) {
                 VStack(spacing: 4) {
                     Text("Welcome Back")
@@ -47,16 +48,28 @@ struct LoginView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.primary)
+                
+                NavigationLink {
+                    RegisterView()
+                } label: {
+                    HStack {
+                        Text("Don't have an account? Register")
+                    }
+                    
+                }
             }
             .padding()
             .background(Color.background)
         }
-        
-        func login() {
-            print("email: \(email) | password: \(password)")
-        }
+    }
+    
+    func login() {
+        print("email: \(email) | password: \(password)")
+    }
 }
 
 #Preview {
-    LoginView()
+    NavigationStack {
+        LoginView()
+    }
 }
