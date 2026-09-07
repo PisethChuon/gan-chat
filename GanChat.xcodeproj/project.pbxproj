@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		7BA4748E304D57570034CC5D /* GanChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GanChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BA4748E304D57570034CC5D /* GanChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = GanChat.app; path = "/Users/piseth/Desktop/GanChat/build/Debug-iphoneos/GanChat.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				7BA47490304D57570034CC5D /* GanChat */,
-				7BA4748F304D57570034CC5D /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		7BA4748F304D57570034CC5D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7BA4748E304D57570034CC5D /* GanChat.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,7 +86,7 @@
 			mainGroup = 7BA47485304D57570034CC5D;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 7BA4748F304D57570034CC5D /* Products */;
+			productRefGroup = 7BA47485304D57570034CC5D;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
