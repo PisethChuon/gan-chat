@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @State private var username: String = ""
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var confirmPassword: String = ""
+    @State private var viewModel = RegisterViewModel()
     
     var body: some View {
         NavigationStack {
@@ -30,26 +27,26 @@ struct RegisterView: View {
                 Spacer()
                 
                 VStack(spacing: 12) {
-                    TextField("Username", text: $username)
+                    TextField("Username", text: $viewModel.username)
                         .textFieldStyle(.roundedBorder)
                         .autocorrectionDisabled(true)
                     
-                    TextField("Email", text: $email)
+                    TextField("Email", text: $viewModel.email)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                     
-                    SecureField("Password", text: $password)
+                    SecureField("Password", text: $viewModel.password)
                         .textFieldStyle(.roundedBorder)
                     
-                    SecureField("Confirm Password", text: $confirmPassword)
+                    SecureField("Confirm Password", text: $viewModel.confirmPassword)
                         .textFieldStyle(.roundedBorder)
                 }
                 
                 Spacer()
                 
                 Button {
-                    register()
+                    
                 } label: {
                     Text("Register")
                         .frame(maxWidth: .infinity)
@@ -68,9 +65,6 @@ struct RegisterView: View {
         }
     }
     
-    func register() {
-        print("username: \(username) | email: \(email) | password: \(password) | confirmPassword: \(confirmPassword)")
-    }
 }
 
 #Preview {

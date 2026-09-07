@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+@Observable
+class RegisterViewModel {
+    var username: String = ""
+    var email: String = ""
+    var password: String = ""
+    var confirmPassword: String = ""
+}
