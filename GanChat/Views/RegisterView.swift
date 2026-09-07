@@ -10,6 +10,8 @@ import SwiftUI
 struct RegisterView: View {
     @State private var viewModel = RegisterViewModel()
     
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
@@ -55,10 +57,14 @@ struct RegisterView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.primary)
                 
-                NavigationLink {
-                    LoginView()
+                Button {
+                    dismiss()
                 } label: {
                     Text("Already have account")
+                        .foregroundStyle(.secondary)
+                    Text("Log In")
+                        .foregroundStyle(.primary)
+                        .bold()
                 }
             }
             .padding()

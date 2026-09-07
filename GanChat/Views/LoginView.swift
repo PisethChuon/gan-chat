@@ -11,7 +11,6 @@ struct LoginView: View {
     @State private var viewModel = LoginViewModel()
     
     var body: some View {
-        NavigationStack {
             VStack(spacing: 16) {
                 VStack(spacing: 4) {
                     Text("Welcome Back")
@@ -52,7 +51,11 @@ struct LoginView: View {
                     RegisterView()
                 } label: {
                     HStack {
-                        Text("Don't have an account? Register")
+                        Text("Don't have an account?")
+                            .foregroundStyle(.secondary)
+                        Text("Register")
+                            .foregroundStyle(.primary)
+                            .bold()
                     }
                     
                 }
@@ -61,7 +64,6 @@ struct LoginView: View {
             .background(Color.background)
         }
     }
-}
 
 #Preview {
     NavigationStack {
