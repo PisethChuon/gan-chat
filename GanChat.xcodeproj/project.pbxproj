@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B852C1C304FF0B7002BD1FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B852C1B304FF0B7002BD1FE /* GoogleService-Info.plist */; };
 		7B852C1F304FF1EA002BD1FE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7B852C1E304FF1EA002BD1FE /* FirebaseAnalytics */; };
+		7B852C25304FFDD0002BD1FE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7B852C24304FFDD0002BD1FE /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,18 +31,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B852C1F304FF1EA002BD1FE /* FirebaseAnalytics in Frameworks */,
+				7B852C25304FFDD0002BD1FE /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B852C23304FFDD0002BD1FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7BA47485304D57570034CC5D = {
 			isa = PBXGroup;
 			children = (
 				7BA47490304D57570034CC5D /* GanChat */,
 				7B852C04304FE326002BD1FE /* GanChat.app */,
 				7B852C1B304FF0B7002BD1FE /* GoogleService-Info.plist */,
+				7B852C23304FFDD0002BD1FE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +76,7 @@
 			name = GanChat;
 			packageProductDependencies = (
 				7B852C1E304FF1EA002BD1FE /* FirebaseAnalytics */,
+				7B852C24304FFDD0002BD1FE /* FirebaseAuth */,
 			);
 			productName = GanChat;
 			productReference = 7B852C04304FE326002BD1FE /* GanChat.app */;
@@ -350,6 +361,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7B852C1D304FF1EA002BD1FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		7B852C24304FFDD0002BD1FE /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B852C1D304FF1EA002BD1FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
