@@ -13,7 +13,6 @@ struct RegisterView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationStack {
             VStack(spacing: 16) {
                 VStack (spacing: 4) {
                     Text("Welcome")
@@ -69,8 +68,6 @@ struct RegisterView: View {
             }
             .padding()
         }
-    }
-    
 }
 
 #Preview {
