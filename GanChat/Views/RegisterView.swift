@@ -47,14 +47,31 @@ struct RegisterView: View {
                 Spacer()
                 
                 Button {
-                    
+                    Task {
+                        let success = await viewModel.register()
+                        if success {
+                            dismiss()
+                        }
+                    }
                 } label: {
-                    Text("Register")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 4)
+                    if viewModel.isLoading {
+                     ProgressView()
+                            .frame(maxWidth: .infinity)
+                    } else {
+                        Text("Register")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 4)
+                    }
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.primary)
+                .disabled(viewModel.isLoading)
+                
+                if !viewModel.errorMessage.isEmpty {
+                    Text(viewModel.errorMessage)
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
                 
                 Button {
                     dismiss()
