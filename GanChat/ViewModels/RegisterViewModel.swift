@@ -32,15 +32,16 @@ class RegisterViewModel {
         }
         
         isLoading = true
+        
+        defer { isLoading = false }
+        
         errorMessage = ""
         
         do {
             let _ = try await Auth.auth().createUser(withEmail: trimmedEmail, password: password)
-            isLoading = false
             return true
         } catch {
             errorMessage = error.localizedDescription
-            isLoading = false
             return false
         }
     }
