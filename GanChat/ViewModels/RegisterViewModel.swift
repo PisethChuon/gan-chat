@@ -29,7 +29,6 @@ class RegisterViewModel {
         
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            print("\(result.user.email ?? "") created")
             isLoading = false
             return true
         } catch {
