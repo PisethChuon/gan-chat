@@ -19,6 +19,13 @@ class RegisterViewModel {
     var isLoading: Bool = false
         
     func register() async -> Bool {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+        guard !trimmedEmail.isEmpty, !password.isEmpty else {
+            errorMessage = "Email and password can't be empty"
+            return false
+        }
+        
         guard password == confirmPassword else {
             errorMessage = "Password doesn't match"
             return false
@@ -28,8 +35,7 @@ class RegisterViewModel {
         errorMessage = ""
         
         do {
-            let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            print("\(result.user.email ?? "") created")
+            let _ = try await Auth.auth().createUser(withEmail: trimmedEmail, password: password)
             isLoading = false
             return true
         } catch {
