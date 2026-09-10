@@ -43,6 +43,7 @@ struct RegisterView: View {
                     SecureField("Confirm Password", text: $viewModel.confirmPassword)
                         .textFieldStyle(.roundedBorder)
                 }
+                .disabled(viewModel.isLoading || viewModel.hasPendingProfile)
                 
                 Spacer()
                 
@@ -58,7 +59,7 @@ struct RegisterView: View {
                      ProgressView()
                             .frame(maxWidth: .infinity)
                     } else {
-                        Text("Register")
+                        Text(viewModel.hasPendingProfile ? "Retry saving username" : "Register")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 4)
                     }
