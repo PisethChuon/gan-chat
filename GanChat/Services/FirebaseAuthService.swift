@@ -34,5 +34,13 @@ final class FirebaseAuthService {
         try Auth.auth().signOut()
     }
     
+    func observeAuthentication(
+        onChange: @escaping (FirebaseAuth.User?) -> Void
+    ) -> AuthStateDidChangeListenerHandle {
+        Auth.auth().addStateDidChangeListener { _, user in
+            onChange(user)
+        }
+    }
+    
     
 }
