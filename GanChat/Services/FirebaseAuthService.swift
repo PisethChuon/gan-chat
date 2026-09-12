@@ -42,5 +42,9 @@ final class FirebaseAuthService {
         }
     }
     
-    
+    func removeAuthenticationObserver(
+        _ handle: AuthStateDidChangeListenerHandle
+    ) {
+        Auth.auth().removeStateDidChangeListener(handle)
+    }
 }
