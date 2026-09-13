@@ -6,39 +6,71 @@
 //
 
 import Foundation
-import FirebaseAuth
+import Observation
 
+@MainActor
 @Observable
-class RegisterViewModel {
-    var username: String = ""
-    var email: String = ""
-    var password: String = ""
-    var confirmPassword: String = ""
-    
-    var errorMessage: String = ""
-    var isLoading: Bool = false
-        
+final class RegisterViewModel {
+    var username = ""
+    var email = ""
+    var password = ""
+    var confirmPassword = ""
+
+    private(set) var errorMessage = ""
+    private(set) var isLoading = false
+
+    private let authService: FirebaseAuthService
+
+    init(authService: FirebaseAuthService = .shared) {
+        self.authService = authService
+    }
+
     func register() async -> Bool {
-        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
-    
-        guard !trimmedEmail.isEmpty, !password.isEmpty else {
-            errorMessage = "Email and password can't be empty"
+        guard !isLoading else {
             return false
         }
-        
+
+        let trimmedUsername = username.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        let trimmedEmail = email.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        guard !trimmedUsername.isEmpty else {
+            errorMessage = "Please enter a username."
+            return false
+        }
+
+        guard !trimmedEmail.isEmpty else {
+            errorMessage = "Please enter your email."
+            return false
+        }
+
+        guard !password.isEmpty else {
+            errorMessage = "Please enter a password."
+            return false
+        }
+
         guard password == confirmPassword else {
-            errorMessage = "Password doesn't match"
+            errorMessage = "Passwords do not match."
             return false
         }
-        
+
         isLoading = true
-        
-        defer { isLoading = false }
-        
         errorMessage = ""
-        
+
+        defer {
+            isLoading = false
+        }
+
         do {
-            let _ = try await Auth.auth().createUser(withEmail: trimmedEmail, password: password)
+            try await authService.register(
+                email: trimmedEmail,
+                password: password
+            )
+
             return true
         } catch {
             errorMessage = error.localizedDescription
