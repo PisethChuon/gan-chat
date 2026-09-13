@@ -54,4 +54,34 @@ final class LoginViewModel {
             return
         }
     }
+    
+    private func message(for error: Error) -> String {
+        let nsError = error as NSError
+        let authErrorCode = AuthErrorCode(rawValue: nsError.code)
+        
+        switch authErrorCode {
+        case .invalidEmail:
+            return "Please enter a valid email address."
+            
+        case .invalidCredential,
+                .wrongPassword,
+                .userNotFound:
+            return "The email or password is incorrect."
+            
+        case .userDisabled:
+            return "This account has been disabled."
+            
+        case .networkError:
+            return "Unable to connect. Check your internet connection and try again."
+            
+        case .tooManyRequests:
+            return "Too many login attempts. Please wait and try again."
+            
+        case .operationNotAllowed:
+            return "Email login is currently unavailable."
+            
+        default:
+            return "Unable to log in. Please try again."
+        }
+    }
 }
