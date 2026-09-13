@@ -30,14 +30,7 @@ final class LoginViewModel {
             errorMessage = "Please enter you email"
             return
         }
-        
-        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        guard !trimmedPassword.isEmpty else {
-            errorMessage = "Please enter you password"
-            return
-        }
-        
+
         isLoading = true
         errorMessage = ""
         
@@ -48,9 +41,10 @@ final class LoginViewModel {
         do {
             try await authService.login(
                 email: trimmedEmail,
-                password: trimmedPassword
+                password: password
             )
         } catch {
+            errorMessage = message(for: error)
             return
         }
     }
