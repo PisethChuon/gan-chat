@@ -27,7 +27,7 @@ final class FirebaseAuthService {
         email: String,
         password: String
     ) async throws -> AuthDataResult {
-        try await Auth.auth().signIn(withEmail: email, link: password)
+        try await Auth.auth().signIn(withEmail: email, password: password)
     }
     
     func logout() throws {
