@@ -8,10 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var sessionViewModel = AuthSessionViewModel()
+    
     var body: some View {
-        NavigationStack {
-            LoginView()
+        Group {
+            if sessionViewModel.isCheckingSession {
+                ProgressView("Checking session...")
+            } else if sessionViewModel.isAuthenticated {
+                NavigationStack {
+                    ConversationListView()
+                }
+            } else {
+                NavigationStack {
+                    LoginView()
+                }
+            }
         }
+        
+        
     }
 }
 
