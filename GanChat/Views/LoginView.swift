@@ -38,7 +38,7 @@ struct LoginView: View {
             Spacer()
             
             Button {
-                
+                performLogin()
             } label: {
                 Text("Log In")
                     .frame(maxWidth: .infinity)
