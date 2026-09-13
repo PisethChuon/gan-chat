@@ -29,10 +29,23 @@ struct LoginView: View {
                 TextField("Email", text: $viewModel.email)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.emailAddress)
-                    .autocapitalization(.none)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .textContentType(.emailAddress)
+                    .submitLabel(.done)
+                    .disabled(viewModel.isLoading)
+                    .onSubmit {
+                        performLogin()
+                    }
                 
                 SecureField("Password", text: $viewModel.password)
                     .textFieldStyle(.roundedBorder)
+                    .textContentType(.password)
+                    .submitLabel(.go)
+                    .disabled(viewModel.isLoading)
+                    .onSubmit {
+                        performLogin()
+                    }
             }
             
             Spacer()
@@ -40,12 +53,28 @@ struct LoginView: View {
             Button {
                 performLogin()
             } label: {
-                Text("Log In")
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 4)
+                Group {
+                    if viewModel.isLoading {
+                        ProgressView()
+                    } else {
+                        Text("Log In")
+                            .bold()
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 4)
             }
             .buttonStyle(.borderedProminent)
             .tint(.primary)
+            .disabled(viewModel.isLoading)
+            
+            if !viewModel.errorMessage.isEmpty {
+                Text(viewModel.errorMessage)
+                    .font(.footnote)
+                    .foregroundStyle(.red)
+                    .multilineTextAlignment(.center)
+                    .accessibilityIdentifier("loginErrorMessage")
+            }
             
             NavigationLink {
                 RegisterView()
@@ -57,11 +86,12 @@ struct LoginView: View {
                         .foregroundStyle(.primary)
                         .bold()
                 }
-                
             }
+            .disabled(viewModel.isLoading)
         }
         .padding()
         .background(Color.background)
+        .navigationBarBackButtonHidden()
     }
     
     private func performLogin() {
