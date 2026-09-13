@@ -13,8 +13,8 @@ import FirebaseAuth
 @Observable
 final class LoginViewModel {
     private let authService: FirebaseAuthService
-    private var errorMessage = ""
-    private var isLoading = false
+    private(set) var errorMessage = ""
+    private(set) var isLoading = false
     
     init(authService: FirebaseAuthService = .shared) {
         self.authService = authService
