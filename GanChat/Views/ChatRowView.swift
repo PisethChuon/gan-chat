@@ -8,11 +8,28 @@
 import SwiftUI
 
 struct ChatRowView: View {
+    var viewModel: ChatRowViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+    }
+    
+    private var avatar: some View {
+        ZStack {
+            Circle()
+                .fill(Color.accentColor.opacity(0.16))
+            
+            Text(viewModel.initials)
+                .font(.headline)
+                .foregroundStyle(Color.accentColor)
+        }
+        .frame(width: 52, height: 52)
+        .accessibilityHidden(true)
     }
 }
 
 #Preview {
-    ChatRowView()
+    ChatRowView(
+        viewModel: ChatRowViewModel.mockChats[0]
+    )
 }
