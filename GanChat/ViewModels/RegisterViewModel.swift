@@ -98,4 +98,32 @@ final class RegisterViewModel {
             return false
         }
     }
+    
+    private func registrationMessage(for error: Error) -> String {
+        let nsError = error as NSError
+        let authErrorCode = AuthErrorCode(rawValue: nsError.code)
+
+        switch authErrorCode {
+        case .emailAlreadyInUse:
+            return "An account already exists for this email."
+
+        case .invalidEmail:
+            return "Please enter a valid email address."
+
+        case .weakPassword:
+            return "Your password must contain at least 6 characters."
+
+        case .networkError:
+            return "Unable to connect. Check your internet connection and try again."
+
+        case .tooManyRequests:
+            return "Too many attempts. Please wait and try again."
+
+        case .operationNotAllowed:
+            return "Email registration is currently unavailable."
+
+        default:
+            return "Unable to create your account. Please try again."
+        }
+    }
 }
