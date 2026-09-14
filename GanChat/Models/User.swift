@@ -12,5 +12,5 @@ struct User: Identifiable, Codable, Equatable {
     let username: String
     let normalizedUsername: String
     let email: String
-    let createdAt: Date
+    let createdAt: Date?
 }
