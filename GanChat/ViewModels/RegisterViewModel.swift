@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import FirebaseAuth
 
 @MainActor
 @Observable
@@ -20,9 +21,14 @@ final class RegisterViewModel {
     private(set) var isLoading = false
 
     private let authService: FirebaseAuthService
+    private let userService: UserService
 
-    init(authService: FirebaseAuthService = .shared) {
+    init(
+        authService: FirebaseAuthService = .shared,
+        userService: UserService = .shared
+    ) {
         self.authService = authService
+        self.userService = userService
     }
 
     func register() async -> Bool {
@@ -66,12 +72,27 @@ final class RegisterViewModel {
         }
 
         do {
-            try await authService.register(
+            let authResult = try await authService.register(
                 email: trimmedEmail,
                 password: password
             )
+            
+            do {
+                try await userService.createUserProfile(
+                    uid: authResult.user.uid,
+                    username: trimmedUsername
+                )
+                
+                return true
+            } catch {
+                try? await authResult.user.delete()
+                
+                errorMessage = """
+                    Your account profile could not be created. Please try again.
+                    """
+            }
 
-            return true
+            return false
         } catch {
             errorMessage = error.localizedDescription
             return false
