@@ -43,6 +43,16 @@ final class RegisterViewModel {
         let trimmedEmail = email.trimmingCharacters(
             in: .whitespacesAndNewlines
         )
+        
+        guard trimmedUsername.count >= 2 else {
+            errorMessage = "Username must be at least 2 characters."
+            return false
+        }
+        
+        guard trimmedUsername.count <= 30 else {
+            errorMessage = "Username must be less than 30 characters."
+            return false
+        }
 
         guard !trimmedUsername.isEmpty else {
             errorMessage = "Please enter a username."
