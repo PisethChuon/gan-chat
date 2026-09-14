@@ -11,8 +11,34 @@ struct ChatRowView: View {
     var viewModel: ChatRowViewModel
     
     var body: some View {
-        
+        HStack(spacing: 12) {
+            avatar
+            
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(viewModel.name)
+                        .font(.headline)
+                        .lineLimit(1)
+                    
+                    Spacer(minLength: 8)
+                    
+                    Text(viewModel.timestamp)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+                
+                Text(viewModel.messagePreview)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+        }
+        .padding(.vertical, 6)
+        .contentShape(Rectangle())
     }
+    
+    
     
     private var avatar: some View {
         ZStack {
@@ -29,7 +55,10 @@ struct ChatRowView: View {
 }
 
 #Preview {
-    ChatRowView(
-        viewModel: ChatRowViewModel.mockChats[0]
-    )
+    List {
+        ChatRowView(
+            viewModel: ChatRowViewModel.mockChats[0]
+        )
+    }
+    .listStyle(.plain)
 }
