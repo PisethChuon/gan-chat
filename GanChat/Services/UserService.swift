@@ -11,8 +11,8 @@ import FirebaseFirestore
 final class UserService {
     private let database: Firestore
     private init(database: Firestore = Firestore.firestore()) {
-            self.database = database
-        }
+        self.database = database
+    }
     
     func createUserProfile(
         uid: String,
@@ -33,4 +33,46 @@ final class UserService {
             .setData(profileData)
     }
     
+    func fetchUserProfile(uid: String) async throws -> User {
+        let snapshot = try await database
+            .collection("users")
+            .document(uid)
+            .getDocument()
+        
+        guard let data = snapshot.data() else {
+            throw UserServiceError.profileNotFound
+        }
+        
+        guard
+            let storedUID = data["uid"] as? String,
+            let username = data["username"] as? String,
+            let normalizedUsername = data["normalizedUsername"] as? String
+        else {
+            throw UserServiceError.invalidProfileData
+        }
+        
+        let timestamp = data["createdAt"] as? Timestamp
+        
+        
+        return User(
+            id: storedUID,
+            username: username,
+            normalizedUsername: normalizedUsername,
+            createdAt: timestamp?.dateValue()
+        )
+    }
+}
+
+enum UserServiceError: LocalizedError {
+    case profileNotFound
+    case invalidProfileData
+    
+    var errorDescription: String? {
+        switch self {
+        case .profileNotFound:
+            return "Ther user profile could not be found."
+        case .invalidProfileData:
+            return "The user profile contanis invalid data"
+        }
+    }
 }
