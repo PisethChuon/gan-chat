@@ -10,6 +10,7 @@
 		7B852C1C304FF0B7002BD1FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B852C1B304FF0B7002BD1FE /* GoogleService-Info.plist */; };
 		7B852C1F304FF1EA002BD1FE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7B852C1E304FF1EA002BD1FE /* FirebaseAnalytics */; };
 		7B852C25304FFDD0002BD1FE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7B852C24304FFDD0002BD1FE /* FirebaseAuth */; };
+		7BA1B8543057E6F3003C6BB8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7BA1B8533057E6F3003C6BB8 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 			files = (
 				7B852C1F304FF1EA002BD1FE /* FirebaseAnalytics in Frameworks */,
 				7B852C25304FFDD0002BD1FE /* FirebaseAuth in Frameworks */,
+				7BA1B8543057E6F3003C6BB8 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +79,7 @@
 			packageProductDependencies = (
 				7B852C1E304FF1EA002BD1FE /* FirebaseAnalytics */,
 				7B852C24304FFDD0002BD1FE /* FirebaseAuth */,
+				7BA1B8533057E6F3003C6BB8 /* FirebaseFirestore */,
 			);
 			productName = GanChat;
 			productReference = 7B852C04304FE326002BD1FE /* GanChat.app */;
@@ -366,6 +369,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7B852C1D304FF1EA002BD1FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		7BA1B8533057E6F3003C6BB8 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B852C1D304FF1EA002BD1FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
