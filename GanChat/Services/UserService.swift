@@ -9,7 +9,10 @@ import Foundation
 import FirebaseFirestore
 
 final class UserService {
+    static let shared = UserService()
+    
     private let database: Firestore
+    
     private init(database: Firestore = Firestore.firestore()) {
         self.database = database
     }
