@@ -8,37 +8,28 @@
 import SwiftUI
 
 struct ConversationListView: View {
-    @State private var logoutErrorMessage = ""
-
-    private let authService = FirebaseAuthService.shared
+    @State private var viewModel = ConversationListViewModel()
 
     var body: some View {
-        VStack {
-            Text("Conversation list")
-
-            if !logoutErrorMessage.isEmpty {
-                Text(logoutErrorMessage)
+        List {
+            if !viewModel.logoutErrorMessage.isEmpty {
+                Text(viewModel.logoutErrorMessage)
                     .font(.footnote)
                     .foregroundStyle(.red)
             }
+
+            ForEach(viewModel.chats) { chat in
+                ChatRowView(viewModel: chat)
+            }
         }
+        .listStyle(.plain)
         .navigationTitle("Chats")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Logout", role: .destructive) {
-                    logout()
+                    viewModel.logout()
                 }
             }
-        }
-    }
-
-    private func logout() {
-        logoutErrorMessage = ""
-
-        do {
-            try authService.logout()
-        } catch {
-            logoutErrorMessage = "Unable to log out. Please try again."
         }
     }
 }
