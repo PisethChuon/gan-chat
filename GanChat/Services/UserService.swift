@@ -21,7 +21,9 @@ final class UserService {
         uid: String,
         username: String
     ) async throws {
-        let normalizedUsername = username.lowercased()
+        let normalizedUsername = username
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
         
         let profileData: [String: Any] = [
             "uid": uid,
