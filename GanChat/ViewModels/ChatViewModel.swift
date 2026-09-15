@@ -22,8 +22,32 @@ class ChatViewModel {
         
     }
     
-    func makeMockMessages() {
-        
+    func makeMockMessages(
+        recipientName: String
+    ) -> [ChatMessage]{
+        [
+            ChatMessage(
+                text: "Hi! This is \(recipientName)",
+                sentAt: Date().addingTimeInterval(-300),
+                isFromCurrentUser: false
+            ),
+            ChatMessage(
+                text: "Hey! Nice to hear from you.",
+                sentAt: Date().addingTimeInterval(-240),
+                isFromCurrentUser: true
+            ),
+            ChatMessage(
+                text: "How is your day going?",
+                sentAt: Date().addingTimeInterval(-180),
+                isFromCurrentUser: false
+            ),
+            ChatMessage(
+                text: "It is going well. I am working on GanChat",
+                sentAt: Date().addingTimeInterval(-120),
+                isFromCurrentUser: true
+            ),
+        ]
     }
+    
     
 }
