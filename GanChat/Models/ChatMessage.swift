@@ -7,6 +7,10 @@
 
 import Foundation
 
+/// isFromCurrentUser –> determines the bubble alignment:
+/// true: outgoing message on the right
+/// false: incomming message on the left
+
 struct ChatMessage {
     let id: UUID
     let text: String
