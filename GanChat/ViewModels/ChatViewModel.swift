@@ -19,12 +19,12 @@ class ChatViewModel {
     private(set) var messages: [ChatMessage]
     
     init(chat: ChatRowViewModel) {
-            recipientID = chat.id
-            recipientName = chat.name
-            messages = Self.makeMockMessages(
-                recipientName: chat.name
-            )
-        }
+        recipientID = chat.id
+        recipientName = chat.name
+        messages = Self.makeMockMessages(
+            recipientName: chat.name
+        )
+    }
     
     func sendMessage() {
         let trimmedMessage = messageText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -40,8 +40,6 @@ class ChatViewModel {
         
         messages.append(newMessage)
         messageText = ""
-        
-        
     }
     
     private static func makeMockMessages(
