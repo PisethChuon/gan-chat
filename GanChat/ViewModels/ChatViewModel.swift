@@ -11,7 +11,7 @@ import Observation
 @MainActor
 @Observable
 
-class ChatViewModel {
+final class ChatViewModel {
     let recipientID: String
     let recipientName: String
     
