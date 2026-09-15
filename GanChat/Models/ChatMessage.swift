@@ -11,7 +11,7 @@ import Foundation
 /// true: outgoing message on the right
 /// false: incomming message on the left
 
-struct ChatMessage {
+struct ChatMessage: Identifiable {
     let id: UUID
     let text: String
     let sentAt: Date
