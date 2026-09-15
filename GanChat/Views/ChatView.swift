@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct ChatView: View {
+    @State private var viewModel: ChatViewModel
+    
+    init(chat: ChatRowViewModel) {
+        _viewModel = State(
+            initialValue: ChatViewModel(chat: chat)
+        )
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
     }
 }
 
 #Preview {
-    ChatView()
+    NavigationStack {
+        ChatView(chat: ChatRowViewModel.mockChats[0])
+    }
 }
