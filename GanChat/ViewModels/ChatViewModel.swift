@@ -12,17 +12,39 @@ import Observation
 @Observable
 
 class ChatViewModel {
+    let recipientID: String
     let recipientName: String
     
+    var messageText = ""
+    private(set) var messages: [ChatMessage]
+    
     init(chat: ChatRowViewModel) {
-        recipientName = chat.name
-    }
+            recipientID = chat.id
+            recipientName = chat.name
+            messages = Self.makeMockMessages(
+                recipientName: chat.name
+            )
+        }
     
     func sendMessage() {
+        let trimmedMessage = messageText.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmedMessage.isEmpty else {
+            return
+        }
+        
+        let newMessage = ChatMessage(
+            text: trimmedMessage,
+            isFromCurrentUser: true
+        )
+        
+        messages.append(newMessage)
+        messageText = ""
+        
         
     }
     
-    func makeMockMessages(
+    private static func makeMockMessages(
         recipientName: String
     ) -> [ChatMessage]{
         [
