@@ -18,6 +18,10 @@ struct ChatView: View {
     
     var body: some View {
         messageList
+        
+        Divider()
+        
+        messageComposer
     }
     
     private var messageList: some View {
@@ -31,9 +35,61 @@ struct ChatView: View {
                 }
                 .padding()
             }
+            .scrollDismissesKeyboard(.interactively)
+            .onAppear {
+                scrollToLatestMessage(using: scrollProxy)
+            }
+            .onChange(of: viewModel.messages.count) {
+                scrollToLatestMessage(using: scrollProxy)
+            }
+        }
+    }
+    
+    private var messageComposer: some View {
+        HStack(alignment: .bottom, spacing: 10) {
+            TextField("Message...",
+                      text: $viewModel.messageText,
+                      axis: .vertical
+            )
+            .textFieldStyle(.roundedBorder)
+            .lineLimit(1...5)
+            .submitLabel(.send)
+            .onSubmit {
+                viewModel.sendMessage()
+            }
+            
+            Button {
+                viewModel.sendMessage()
+            } label: {
+                Image(systemName: "arrow.up.circle.fill")
+                    .font(.system(size: 30))
+            }
+//            .disabled(viewModel.canSendMessage)
+            .accessibilityLabel("Send message")
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 10)
+        .background(.regularMaterial)
+    }
+    
+    private func scrollToLatestMessage(
+        using scrollProxy: ScrollViewProxy
+    ) {
+        guard let latestMessage = viewModel.messages.last else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            withAnimation {
+                scrollProxy.scrollTo(
+                    latestMessage.id,
+                    anchor: .bottom
+                )
+            }
         }
     }
 }
+
 
 private struct MessageBubbleView: View {
     let message: ChatMessage

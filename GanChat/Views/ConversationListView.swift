@@ -19,7 +19,11 @@ struct ConversationListView: View {
             }
 
             ForEach(viewModel.chats) { chat in
-                ChatRowView(viewModel: chat)
+                NavigationLink {
+                    ChatView(chat: chat)
+                } label: {
+                    ChatRowView(viewModel: chat)
+                }
             }
         }
         .listStyle(.plain)

@@ -18,6 +18,12 @@ final class ChatViewModel {
     var messageText = ""
     private(set) var messages: [ChatMessage]
     
+    var canSendMessage: Bool {
+        !messageText
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .isEmpty
+    }
+    
     init(chat: ChatRowViewModel) {
         recipientID = chat.id
         recipientName = chat.name
