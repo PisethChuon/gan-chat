@@ -11,30 +11,34 @@ struct ConversationListView: View {
     @State private var viewModel = ConversationListViewModel()
 
     var body: some View {
-        List {
-            if !viewModel.logoutErrorMessage.isEmpty {
-                Text(viewModel.logoutErrorMessage)
-                    .font(.footnote)
-                    .foregroundStyle(.red)
-            }
+        VStack {
+            UserSearchComponent()
+            List {
+                if !viewModel.logoutErrorMessage.isEmpty {
+                    Text(viewModel.logoutErrorMessage)
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
 
-            ForEach(viewModel.chats) { chat in
-                NavigationLink {
-                    ChatView(chat: chat)
-                } label: {
-                    ChatRowView(viewModel: chat)
+                ForEach(viewModel.chats) { chat in
+                    NavigationLink {
+                        ChatView(chat: chat)
+                    } label: {
+                        ChatRowView(viewModel: chat)
+                    }
+                }
+            }
+            .listStyle(.plain)
+            .navigationTitle("Chats")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Logout", role: .destructive) {
+                        viewModel.logout()
+                    }
                 }
             }
         }
-        .listStyle(.plain)
-        .navigationTitle("Chats")
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Logout", role: .destructive) {
-                    viewModel.logout()
-                }
-            }
-        }
+        
     }
 }
 
