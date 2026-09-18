@@ -229,6 +229,6 @@ Send messages
 ```
 
 Luck...we are has implemented the `fetchUserProfile`, this is the direction.
-So the architecture we missing isUser Discovery.
+So the architecture we missing is User Discovery.
 
 
