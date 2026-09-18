@@ -11,7 +11,6 @@ ONE-TO-ONE CHAT ARCHITECTURE
    User
    Conversation
    Message
-
 2. Message lifecycle
    Sending → Sent → Delivered → Read
 
