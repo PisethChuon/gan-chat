@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserSearchView: View {
+struct UserSearchComponent: View {
     @State private var searchText = ""
     @FocusState private var isFocused: Bool
 
@@ -52,11 +52,11 @@ struct UserSearchView: View {
 
 #Preview {
     ZStack {
-        LinearGradient(colors: [.blue, .purple, .pink],
+        LinearGradient(colors: [.purple],
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
             .ignoresSafeArea()
 
-        UserSearchView()
+        UserSearchComponent()
     }
 }
