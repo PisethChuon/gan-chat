@@ -13,7 +13,6 @@ ONE-TO-ONE CHAT ARCHITECTURE
    Message
 2. Message lifecycle
    Sending → Sent → Delivered → Read
-
 3. Message flow
    Sender → Backend → Recipient
 
