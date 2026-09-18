@@ -231,4 +231,18 @@ Send messages
 Luck...we are has implemented the `fetchUserProfile`, this is the direction.
 So the architecture we missing is User Discovery.
 
+### User discovery
+This is answer the question WHO IS CHATTING WITH ME?
+Here where we design the concept.
+
+- **Bob** search username "**Alice**"
+	- Search box display **Alice** as username, then tap on
+		- Then we display conversation screen
+			- When Bob hit send message, **Alice** will receives the message "Hi!"
+	- We will use the `fetchUserProfile` for search user.
+
+Questions:
+Q. In chat application, how do identify Alice and BoB are 1-to-1 conversation? 
+A. I think, when user hit send a message, first backend services will identify recipientID, and then the services will delivery the message to recipientID. Moreover the backend services will generate or create a conversationID to ensure both of them are the same channel.
+
 
