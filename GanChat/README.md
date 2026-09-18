@@ -234,7 +234,6 @@ So the architecture we missing is User Discovery.
 ### User discovery
 This is answer the question WHO IS CHATTING WITH ME?
 Here where we design the concept.
-
 - **Bob** search username "**Alice**"
 	- Search box display **Alice** as username, then tap on
 		- Then we display conversation screen
