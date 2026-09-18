@@ -198,7 +198,7 @@ ONE-TO-ONE CHAT ARCHITECTURE
       custom backend, only the Data Source changes. ViewModel and the
       Repository protocol stay untouched.
 
-Discover anther user
+### Discover anther user
 Who is chatting with me?
 
 Example:
@@ -239,7 +239,6 @@ Here where we design the concept.
 		- Then we display conversation screen
 			- When Bob hit send message, **Alice** will receives the message "Hi!"
 	- We will use the `fetchUserProfile` for search user.
-
 Questions:
 Q. In chat application, how do identify Alice and BoB are 1-to-1 conversation? 
 A. I think, when user hit send a message, first backend services will identify recipientID, and then the services will delivery the message to recipientID. Moreover the backend services will generate or create a conversationID to ensure both of them are the same channel.
