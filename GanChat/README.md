@@ -6,7 +6,7 @@
 - **Not in v1**: Voice messages, message reactions, group chat.
 
 Screens also make sense now: **Login** → **Register** → **Conversation List** → **Chat**
-ONE-TO-ONE CHAT MESSAGE
+ONE-TO-ONE CHAT ARCHITECTURE
 1. Domain
    User
    Conversation
@@ -197,4 +197,38 @@ ONE-TO-ONE CHAT MESSAGE
     - Why this layering matters: if Firebase is ever swapped for a
       custom backend, only the Data Source changes. ViewModel and the
       Repository protocol stay untouched.
+
+Discover anther user
+Who is chatting with me?
+
+Example:
+Anther user should search user "Alice"
+Then, chatting with she
+
+---
+
+### The flow is
+```
+Alice logs in
+      ↓
+Firebase Auth
+      ↓
+Alice's UID = A123
+      ↓
+Alice searches for Bob
+      ↓
+Find Bob's profile
+      ↓
+Bob's UID = B456
+      ↓
+Open/create conversation
+      ↓
+A123 ↔ B456
+      ↓
+Send messages
+```
+
+Luck...we are has implemented the `fetchUserProfile`, this is the direction.
+
+
 
