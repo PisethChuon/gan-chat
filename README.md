@@ -31,4 +31,4 @@ What relationship exists between **Message** and **Conversation** them?
 - Why do chat system use persistent connections?
 	- Chat system need to use persistent connections because they need instant, two way, low latency communication between clients and servers.
 - What happens the connection disappears?
-- It realtime delivery the same things as [[message persistence]]?
+- It realtime delivery the same things as [[message persistence]]
