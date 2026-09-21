@@ -52,7 +52,7 @@ struct UserSearchComponent: View {
 
 #Preview {
     ZStack {
-        LinearGradient(colors: [.purple],
+        LinearGradient(colors: [.blue],
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
             .ignoresSafeArea()
