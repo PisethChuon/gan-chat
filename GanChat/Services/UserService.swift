@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-final class UserService {
+final class UserService: UserRepository {
     static let shared = UserService()
     
     private let database: Firestore
@@ -65,6 +65,10 @@ final class UserService {
             normalizedUsername: normalizedUsername,
             createdAt: timestamp?.dateValue()
         )
+    }
+    
+    func searchUsers {
+    // sort user by firebase userid in order
     }
 }
 
