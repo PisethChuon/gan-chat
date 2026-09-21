@@ -67,8 +67,55 @@ final class UserService: UserRepository {
         )
     }
     
-    func searchUsers {
-    // sort user by firebase userid in order
+    func searchUsers(
+        username: String,
+        excludingUID: String
+    ) async throws -> [User] {
+        let normalizedUsername = username
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
+        
+        guard !normalizedUsername.isEmpty else {
+            return []
+        }
+        
+        let snapshot = try await database
+            .collection("users")
+            .whereField("normalizedUsername",
+                        isEqualTo: normalizedUsername).getDocuments(source: .server)
+        var users: [User] = []
+
+        for document in snapshot.documents {
+            try Task.checkCancellation()
+            
+            let uid = document.documentID
+            
+            // Do not show the signed-in user.
+            guard uid != excludingUID else {
+                continue
+            }
+            
+            do {
+                let user = try await fetchUserProfile(uid: uid)
+                
+                // The document ID is the Firebase identity.
+                guard user.id == uid else {
+                    throw UserServiceError.invalidProfileData
+                }
+                
+                // The profile may have changed since the query.
+                guard user.normalizedUsername == normalizedUsername else {
+                    continue
+                }
+                
+                users.append(user)
+            } catch UserServiceError.profileNotFound {
+                // A profile may be deleted between the tow reads.
+                continue
+            }
+        }
+        
+        return users.sorted { $0.id < $1.id}
     }
 }
 
