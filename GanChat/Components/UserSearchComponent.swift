@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct UserSearchComponent: View {
-    @State private var searchText = ""
+    @Binding var searchText: String
+    var onSearch: () -> Void
     @FocusState private var isFocused: Bool
 
     // Center the content only when the user is not using the field
@@ -27,6 +28,10 @@ struct UserSearchComponent: View {
                     .focused($isFocused)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
+                    .submitLabel(.search)
+                    .onSubmit {
+                        onSearch()
+                    }
                     .foregroundStyle(.primary)
             }
             .opacity(showCentered ? 0 : 1)
@@ -57,6 +62,9 @@ struct UserSearchComponent: View {
                        endPoint: .bottomTrailing)
             .ignoresSafeArea()
 
-        UserSearchComponent()
+        UserSearchComponent(
+            searchText: .constant(""),
+            onSearch: {}
+        )
     }
 }
