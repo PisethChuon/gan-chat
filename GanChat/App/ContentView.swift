@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContentView: View {
     @State private var sessionViewModel = AuthSessionViewModel()
@@ -14,10 +15,11 @@ struct ContentView: View {
         Group {
             if sessionViewModel.isCheckingSession {
                 ProgressView("Checking session...")
-            } else if sessionViewModel.isAuthenticated {
+            } else if let currentUser = sessionViewModel.currentUser {
                 NavigationStack {
-                    ConversationListView()
+                    ConversationListView(currentUserID: currentUser.uid)
                 }
+                .id(currentUser.uid)
             } else {
                 NavigationStack {
                     LoginView()
