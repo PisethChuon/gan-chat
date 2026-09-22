@@ -19,20 +19,23 @@ final class UserSearchViewModel {
         case failed(String)
     }
     
-    
+    // Stores what user type
     var searchText = "" {
         didSet {
             guard searchText != oldValue else { return }
             resetSearch()
         }
     }
-    
-    private let repository: any UserRepository
+
+    // Tells the UI what is happenning with the search
     private(set) var state: State = .idle
+    private let repository: any UserRepository
     
+    // Keep a reference to the currently running search
     @ObservationIgnored
     private var searchTask: Task<Void, Never>?
     
+    // Protects old searche returnning late
     @ObservationIgnored
     private var requestID = UUID()
     
@@ -90,6 +93,7 @@ final class UserSearchViewModel {
         
     }
     
+    // Clean or reset search fields
     func resetSearch() {
         searchTask?.cancel()
         searchTask = nil
