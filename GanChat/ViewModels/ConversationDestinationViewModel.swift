@@ -10,7 +10,6 @@ import Observation
 
 @MainActor
 @Observable
-
 final class ConversationDestinationViewModel {
     enum State {
         case loading
@@ -27,7 +26,12 @@ final class ConversationDestinationViewModel {
     @ObservationIgnored
     private var loadingTask: Task<Void, Never>?
     
-    init(currentUserID: String, recipient: User, repository: any ConversationRepository) {
+    init(
+        currentUserID: String,
+        recipient: User,
+        repository: any ConversationRepository =
+        FirestoreConversationRepository.shared
+    ) {
         self.currentUserID = currentUserID
         self.recipient = recipient
         self.repository = repository
@@ -75,9 +79,8 @@ final class ConversationDestinationViewModel {
         loadConversation()
     }
     
-    func cacel() {
+    func cancel() {
         loadingTask?.cancel()
         loadingTask = nil
     }
 }
-    
