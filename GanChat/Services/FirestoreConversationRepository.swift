@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import CryptoKit
 
 // The Big idea
 // Bob want to chat with Alice
@@ -54,7 +55,28 @@ final class FirestoreConversationRepository: ConversationRepository {
             currentUserID,
             recipientID
         ].sorted()
+        
+        // Generate conversation ID
+        let conversationID: String
+        
     }
+    
+    private func makeConversationID(
+        participantIDs: [String]
+    ) -> String {
+        // Including each UID's length prevents ambiguous combinations.
+        let value = participantIDs
+            .map { "\($0.utf8.count):\($0)" }
+            .joined()
+        
+        let digest = SHA256.hash(data: Data(value.utf8))
+        
+        return digest.map {
+            String(format: "%02x", $0)
+        }
+        .joined()
+    }
+    
 }
 
 enum ConversationRepositoryError: LocalizedError {
