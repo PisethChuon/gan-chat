@@ -57,8 +57,12 @@ final class FirestoreConversationRepository: ConversationRepository {
         ].sorted()
         
         // Generate conversation ID
-        let conversationID: String
+        let conversationID = makeConversationID(participantIDs: participantIDs)
         
+        let reference = database
+            .collection("conversations")
+            .document(conversationID)
+            
     }
     
     private func makeConversationID(
