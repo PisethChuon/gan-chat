@@ -63,6 +63,8 @@ final class UserSearchViewModel {
         let activeRequestID = requestID
         let repository = repository
         
+        state = .loading
+        
         searchTask = Task { [weak self] in
             do {
                 let users = try await repository.searchUsers(
