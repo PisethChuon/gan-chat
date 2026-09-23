@@ -62,9 +62,41 @@ final class FirestoreConversationRepository: ConversationRepository {
         let reference = database
             .collection("conversations")
             .document(conversationID)
-            
+        
+        let snapshot = try await reference.getDocument()
+        
+        if snapshot.exists {
+            return try makeConversation(
+                from: snapshot,
+                expectedParticipantIDs: participantIDs
+            )
+        }
+        
+    }
+    // Helper make conversation
+    private func makeConversation(
+        from snapshot: DocumentSnapshot,
+        expectedParticipantIDs: [String]
+    ) throws -> Conversation {
+        guard let data = snapshot.data(),
+              let participantIDs = data["participantIDs"] as? [String] else {
+            throw ConversationRepositoryError.invalidConversationData
+        }
+        
+        guard participantIDs.sorted() == expectedParticipantIDs else {
+            throw ConversationRepositoryError.participantMismatch
+        }
+        
+        let timestamp = data["createdAt"] as? Timestamp
+        
+        return Conversation(
+            id: snapshot.documentID,
+            participantIDs: participantIDs,
+            createdAt: timestamp?.dateValue()
+        )
     }
     
+    // Helper generate conversationID
     private func makeConversationID(
         participantIDs: [String]
     ) -> String {
@@ -86,6 +118,8 @@ final class FirestoreConversationRepository: ConversationRepository {
 enum ConversationRepositoryError: LocalizedError {
     case invalidUserID
     case cannotChatWithSelf
+    case invalidConversationData
+    case participantMismatch
     
     var errorDescription: String? {
         switch self {
@@ -94,6 +128,13 @@ enum ConversationRepositoryError: LocalizedError {
             
         case .cannotChatWithSelf:
             return "You cannot start a conversation with yourself."
+            
+        case .invalidConversationData:
+            return "This conversation contains invalid data."
+            
+        case .participantMismatch:
+            return "The conversation participants do not match."
         }
+        
     }
 }
