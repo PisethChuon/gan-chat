@@ -72,6 +72,11 @@ final class FirestoreConversationRepository: ConversationRepository {
             )
         }
         
+        let conversationData: [String: Any] = [
+            "participantIDs": participantIDs,
+            "createAt": FieldValue.serverTimestamp()
+        ]
+        
     }
     // Helper make conversation
     private func makeConversation(
