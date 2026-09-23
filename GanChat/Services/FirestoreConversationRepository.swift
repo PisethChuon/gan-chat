@@ -77,6 +77,16 @@ final class FirestoreConversationRepository: ConversationRepository {
             "createAt": FieldValue.serverTimestamp()
         ]
         
+        try await reference.setData(conversationData)
+        
+        // Read it again so createAt contains the server timestamp.
+        let createdSnapshot = try await reference.getDocument()
+        
+        return try makeConversation(
+            from: createdSnapshot,
+            expectedParticipantIDs: participantIDs
+        )
+        
     }
     // Helper make conversation
     private func makeConversation(
