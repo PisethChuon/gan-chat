@@ -48,6 +48,12 @@ final class FirestoreConversationRepository: ConversationRepository {
         guard currentUserID != recipientID else {
             throw ConversationRepositoryError.invalidUserID
         }
+        
+        // Sorted participantID
+        let participantIDs = [
+            currentUserID,
+            recipientID
+        ].sorted()
     }
 }
 
