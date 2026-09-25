@@ -7,25 +7,32 @@
 
 import Foundation
 
-/// isFromCurrentUser –> determines the bubble alignment:
-/// true: outgoing message on the right
-/// false: incomming message on the left
+struct ChatMessage: Identifiable, Equatable {
+    enum DeliveryState: Equatable {
+        case sending
+        case sent
+    }
 
-struct ChatMessage: Identifiable {
-    let id: UUID
+    let id: String
+    let conversationID: String
+    let senderID: String
     let text: String
-    let sentAt: Date
-    let isFromCurrentUser: Bool
-    
-    init (
-        id: UUID = UUID(),
+    let createdAt: Date?
+    let deliveryState: DeliveryState
+
+    init(
+        id: String = UUID().uuidString,
+        conversationID: String,
+        senderID: String,
         text: String,
-        sentAt: Date = Date(),
-        isFromCurrentUser: Bool
+        createdAt: Date? = nil,
+        deliveryState: DeliveryState = .sending
     ) {
         self.id = id
+        self.conversationID = conversationID
+        self.senderID = senderID
         self.text = text
-        self.sentAt = sentAt
-        self.isFromCurrentUser = isFromCurrentUser
+        self.createdAt = createdAt
+        self.deliveryState = deliveryState
     }
 }
