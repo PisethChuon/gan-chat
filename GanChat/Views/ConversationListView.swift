@@ -38,12 +38,10 @@ struct ConversationListView: View {
                 case .loading:
                     ProgressView("Opening conversation...")
                 case .ready(let conversation):
-                    ContentUnavailableView(
-                        "No message yet",
-                        systemImage: "bubble.left.and.bubble.right",
-                        description: Text(
-                            "Conversation ID: \(conversation.id)"
-                        )
+                    ChatView(
+                        conversation: conversation,
+                        currentUserID: viewModel.currentUserID,
+                        recipient: recipient
                     )
                     
                 case .failed(let message):
@@ -91,7 +89,14 @@ struct ConversationListView: View {
                 } else {
                     ForEach(viewModel.chats) { chat in
                         NavigationLink {
-                            ChatView(chat: chat)
+                            ContentUnavailableView(
+                                "Prototype conversation",
+                                systemImage: "bubble.left.and.bubble.right",
+                                description: Text(
+                                    "Search for a Firebase user to start chatting."
+                                )
+                            )
+                            .navigationTitle(chat.name)
                         } label: {
                             ChatRowView(viewModel: chat)
                         }
@@ -131,7 +136,10 @@ struct ConversationListView: View {
             } else {
                 ForEach(users) { user in
                     NavigationLink {
-                        SelectedRecipientView(user: user)
+                        ConversationDestinationView(
+                            currentUserID: currentUserID,
+                            recipient: user
+                        )
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(user.username)
@@ -159,20 +167,6 @@ struct ConversationListView: View {
     
     private func search() {
         searchViewModel.search(currentUserID: currentUserID)
-    }
-}
-
-private struct SelectedRecipientView: View {
-    let user: User
-    
-    var body: some View {
-        ContentUnavailableView(
-            "No messages yet",
-            systemImage: "bubble.left.and.bubble.right",
-            description: Text("Messaging will be available soon.")
-        )
-        .navigationTitle(user.username)
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
