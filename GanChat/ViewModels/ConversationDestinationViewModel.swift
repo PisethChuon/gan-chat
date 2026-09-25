@@ -19,7 +19,7 @@ final class ConversationDestinationViewModel {
     
     private(set) var state: State = .loading
     
-    private let currentUserID: String
+    let currentUserID: String
     private let recipient: User
     private let repository: any ConversationRepository
     
