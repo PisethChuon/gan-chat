@@ -47,7 +47,7 @@ final class FirestoreConversationRepository: ConversationRepository {
         }
         
         guard currentUserID != recipientID else {
-            throw ConversationRepositoryError.invalidUserID
+            throw ConversationRepositoryError.cannotChatWithSelf
         }
         
         // Sorted participantID
@@ -74,7 +74,7 @@ final class FirestoreConversationRepository: ConversationRepository {
         
         let conversationData: [String: Any] = [
             "participantIDs": participantIDs,
-            "createAt": FieldValue.serverTimestamp()
+            "createdAt": FieldValue.serverTimestamp()
         ]
         
         try await reference.setData(conversationData)
