@@ -12,4 +12,8 @@ protocol ConversationRepository {
         currentUserID: String,
         recipientID: String
     ) async throws -> Conversation
+
+    func observeConversations(
+        for currentUserID: String
+    ) -> AsyncThrowingStream<[Conversation], Error>
 }
