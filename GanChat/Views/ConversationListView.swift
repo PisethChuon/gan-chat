@@ -75,17 +75,17 @@ struct ConversationListView: View {
         VStack {
             UserSearchComponent(
                 searchText: $searchViewModel.searchText,
-                onSearch: search,
-                isFocused: $searchFocused
+                isFocused: $searchFocused,
+                onSearch: search
             )
-            
+
             List {
                 if !viewModel.logoutErrorMessage.isEmpty {
                     Text(viewModel.logoutErrorMessage)
                         .font(.footnote)
                         .foregroundStyle(.red)
                 }
-                
+
                 if searchViewModel.hasSearchText {
                     searchContent
                 } else {
@@ -98,6 +98,7 @@ struct ConversationListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Logout", role: .destructive) {
+                        searchFocused = false
                         searchViewModel.resetSearch()
                         viewModel.logout()
                     }

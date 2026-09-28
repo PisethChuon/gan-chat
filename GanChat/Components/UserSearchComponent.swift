@@ -9,8 +9,8 @@ import SwiftUI
 
 struct UserSearchComponent: View {
     @Binding var searchText: String
-    var onSearch: () -> Void
     @FocusState.Binding private(set) var isFocused: Bool
+    var onSearch: () -> Void
 
     // Center the content only when the user is not using the field
     private var showCentered: Bool {
