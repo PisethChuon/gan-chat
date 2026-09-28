@@ -88,26 +88,91 @@ final class FirestoreConversationRepository: ConversationRepository {
         )
         
     }
+
+    func observeConversations(
+        for currentUserID: String
+    ) -> AsyncThrowingStream<[Conversation], Error> {
+        AsyncThrowingStream { continuation in
+            let listener = database
+                .collection("conversations")
+                .whereField(
+                    "participantIDs",
+                    arrayContains: currentUserID
+                )
+                .addSnapshotListener { snapshot, error in
+                    if let error {
+                        continuation.finish(throwing: error)
+                        return
+                    }
+
+                    guard let snapshot else {
+                        continuation.finish(
+                            throwing:
+                                ConversationRepositoryError.invalidConversationData
+                        )
+                        return
+                    }
+
+                    do {
+                        let conversations = try snapshot.documents
+                            .map(Self.makeConversation)
+                            .sorted {
+                                let leftDate = $0.updatedAt ?? $0.createdAt
+                                let rightDate = $1.updatedAt ?? $1.createdAt
+
+                                switch (leftDate, rightDate) {
+                                case let (left?, right?) where left != right:
+                                    return left > right
+                                case (.some, nil):
+                                    return true
+                                case (nil, .some):
+                                    return false
+                                default:
+                                    return $0.id < $1.id
+                                }
+                            }
+
+                        continuation.yield(conversations)
+                    } catch {
+                        continuation.finish(throwing: error)
+                    }
+                }
+
+            continuation.onTermination = { _ in
+                listener.remove()
+            }
+        }
+    }
     // Helper make conversation
     private func makeConversation(
         from snapshot: DocumentSnapshot,
         expectedParticipantIDs: [String]
     ) throws -> Conversation {
-        guard let data = snapshot.data(),
-              let participantIDs = data["participantIDs"] as? [String] else {
-            throw ConversationRepositoryError.invalidConversationData
-        }
+        let conversation = try Self.makeConversation(from: snapshot)
         
-        guard participantIDs.sorted() == expectedParticipantIDs else {
+        guard conversation.participantIDs.sorted() == expectedParticipantIDs else {
             throw ConversationRepositoryError.participantMismatch
         }
-        
-        let timestamp = data["createdAt"] as? Timestamp
-        
+
+        return conversation
+    }
+
+    nonisolated private static func makeConversation(
+        from snapshot: DocumentSnapshot
+    ) throws -> Conversation {
+        guard let data = snapshot.data(),
+              let participantIDs = data["participantIDs"] as? [String],
+              participantIDs.count == 2 else {
+            throw ConversationRepositoryError.invalidConversationData
+        }
+
         return Conversation(
             id: snapshot.documentID,
             participantIDs: participantIDs,
-            createdAt: timestamp?.dateValue()
+            createdAt: (data["createdAt"] as? Timestamp)?.dateValue(),
+            updatedAt: (data["updatedAt"] as? Timestamp)?.dateValue(),
+            lastMessageText: data["lastMessageText"] as? String,
+            lastMessageSenderID: data["lastMessageSenderID"] as? String
         )
     }
     

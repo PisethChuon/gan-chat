@@ -87,20 +87,7 @@ struct ConversationListView: View {
                 if searchViewModel.hasSearchText {
                     searchContent
                 } else {
-                    ForEach(viewModel.chats) { chat in
-                        NavigationLink {
-                            ContentUnavailableView(
-                                "Prototype conversation",
-                                systemImage: "bubble.left.and.bubble.right",
-                                description: Text(
-                                    "Search for a Firebase user to start chatting."
-                                )
-                            )
-                            .navigationTitle(chat.name)
-                        } label: {
-                            ChatRowView(viewModel: chat)
-                        }
-                    }
+                    conversationContent
                 }
             }
             .listStyle(.plain)
@@ -114,8 +101,53 @@ struct ConversationListView: View {
                 }
             }
         }
+        .task {
+            viewModel.startObserving(currentUserID: currentUserID)
+        }
         .onDisappear {
             searchViewModel.resetSearch()
+            viewModel.stopObserving()
+        }
+    }
+
+    @ViewBuilder
+    private var conversationContent: some View {
+        switch viewModel.state {
+        case .idle, .loading:
+            ProgressView("Loading conversations…")
+
+        case .loaded:
+            if viewModel.items.isEmpty {
+                ContentUnavailableView(
+                    "No conversations yet",
+                    systemImage: "bubble.left.and.bubble.right",
+                    description: Text(
+                        "Search for a username to start chatting."
+                    )
+                )
+            } else {
+                ForEach(viewModel.items) { item in
+                    NavigationLink {
+                        ChatView(
+                            conversation: item.conversation,
+                            currentUserID: currentUserID,
+                            recipient: item.recipient
+                        )
+                    } label: {
+                        ChatRowView(viewModel: item.rowViewModel)
+                    }
+                }
+            }
+
+        case .failed(let message):
+            VStack(alignment: .leading, spacing: 8) {
+                Text(message)
+                    .foregroundStyle(.red)
+
+                Button("Retry") {
+                    viewModel.retry(currentUserID: currentUserID)
+                }
+            }
         }
     }
     

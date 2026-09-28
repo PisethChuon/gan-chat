@@ -19,18 +19,33 @@ final class FirestoreMessageRepository: MessageRepository {
             throw MessageRepositoryError.emptyMessage
         }
 
-        let data: [String: Any] = [
+        let messageData: [String: Any] = [
             "senderID": message.senderID,
             "text": trimmedText,
             "createdAt": FieldValue.serverTimestamp()
         ]
 
-        try await database
+        let conversationReference = database
             .collection("conversations")
             .document(message.conversationID)
+
+        let messageReference = conversationReference
             .collection("messages")
             .document(message.id)
-            .setData(data)
+
+        let batch = database.batch()
+
+        batch.setData(messageData, forDocument: messageReference)
+        batch.updateData(
+            [
+                "lastMessageText": trimmedText,
+                "lastMessageSenderID": message.senderID,
+                "updatedAt": FieldValue.serverTimestamp()
+            ],
+            forDocument: conversationReference
+        )
+
+        try await batch.commit()
     }
 
     func observeMessages(
@@ -76,7 +91,7 @@ final class FirestoreMessageRepository: MessageRepository {
         }
     }
 
-    private static func makeMessage(
+    nonisolated private static func makeMessage(
         from document: QueryDocumentSnapshot,
         conversationID: String
     ) throws -> ChatMessage {
@@ -101,7 +116,7 @@ final class FirestoreMessageRepository: MessageRepository {
         )
     }
 
-    private static func messageComesBefore(
+    nonisolated private static func messageComesBefore(
         _ lhs: ChatMessage,
         _ rhs: ChatMessage
     ) -> Bool {
