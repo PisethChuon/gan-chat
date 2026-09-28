@@ -69,7 +69,7 @@ struct ChatView: View {
                 }
                 .padding()
             }
-            .scrollDismissesKeyboard(.interactively)
+            .scrollDismissesKeyboard(.immediately)
             .onChange(of: viewModel.messages.count, initial: true) {
                 scrollToLatestMessage(using: scrollProxy)
             }
