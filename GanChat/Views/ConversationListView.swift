@@ -12,6 +12,7 @@ struct ConversationListView: View {
 
     @State private var viewModel = ConversationListViewModel()
     @State private var searchViewModel = UserSearchViewModel()
+    @FocusState private var searchFocused: Bool
     
     private struct ConversationDestinationView: View {
         let recipient: User
@@ -74,7 +75,8 @@ struct ConversationListView: View {
         VStack {
             UserSearchComponent(
                 searchText: $searchViewModel.searchText,
-                onSearch: search
+                onSearch: search,
+                isFocused: $searchFocused
             )
             
             List {
@@ -91,6 +93,7 @@ struct ConversationListView: View {
                 }
             }
             .listStyle(.plain)
+            .scrollDismissesKeyboard(.immediately)
             .navigationTitle("Chats")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
