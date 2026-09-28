@@ -1,34 +1,4 @@
-App name: 
-GanChat
-
-One-sentence description: 
-A simple local-first chat app for Gen Z users to register, find people, and start one-to-one conversations with minimal setup.
-
-Target user: 
-Young users who want a simple chat experience without too many settings or complicated features.
-
-Problem it solves: 
-Many chat apps are overloaded with features. GanChat focuses on simple communication with a lightweight experience and a local identity.
-
-MVP features: 
-Authentication, user registration, login, conversation list, one-to-one text messaging, message history, logout. For now, I would move reaction and voice message out of MVP. They are good portfolio features, but they add quite a lot of complexity. Get text messaging working well first.
-
-Not in v1: 
-Voice messages, message reactions, group chat.
-
-Your screens also make sense now: L
-ogin → Register → Conversation List → Chat
-
----
-
-### Research Session
-#### Overview
-What relationship exists between **Message** and **Conversation** them?
-	- **Message**: Its a starting blocks to start conversation. Sometime we see the message is directly (inform consent) or one-to-one message.
-	- **Conversation**: In summary its a structure. It mean cover from the hold message.
-
-#### Real-time delivery
-- Why do chat system use persistent connections?
-	- Chat system need to use persistent connections because they need instant, two way, low latency communication between clients and servers.
-- What happens the connection disappears?
-- It realtime delivery the same things as [[message persistence]]?
+# Software Architecture Document
+**Project Name:** GanChat  
+**Target Audience:** Gen Z users  
+**Document Type:** Software Architecture Document (SAD)  
