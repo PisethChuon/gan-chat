@@ -108,6 +108,7 @@ struct ConversationListView: View {
             viewModel.startObserving(currentUserID: currentUserID)
         }
         .onDisappear {
+            searchFocused = false
             searchViewModel.resetSearch()
             viewModel.stopObserving()
         }
