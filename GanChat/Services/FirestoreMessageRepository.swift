@@ -10,7 +10,10 @@ final class FirestoreMessageRepository: MessageRepository {
         self.database = database
     }
 
-    func send(_ message: ChatMessage) async throws {
+    func send(
+        _ message: ChatMessage,
+        recipientID: String
+    ) async throws {
         let trimmedText = message.text.trimmingCharacters(
             in: .whitespacesAndNewlines
         )
@@ -40,12 +43,29 @@ final class FirestoreMessageRepository: MessageRepository {
             [
                 "lastMessageText": trimmedText,
                 "lastMessageSenderID": message.senderID,
-                "updatedAt": FieldValue.serverTimestamp()
+                "updatedAt": FieldValue.serverTimestamp(),
+                "unreadParticipantIDs": FieldValue.arrayUnion([
+                    recipientID
+                ])
             ],
             forDocument: conversationReference
         )
 
         try await batch.commit()
+    }
+
+    func markConversationAsRead(
+        conversationID: String,
+        userID: String
+    ) async throws {
+        try await database
+            .collection("conversations")
+            .document(conversationID)
+            .updateData([
+                "unreadParticipantIDs": FieldValue.arrayRemove([
+                    userID
+                ])
+            ])
     }
 
     func observeMessages(

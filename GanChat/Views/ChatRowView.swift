@@ -28,10 +28,21 @@ struct ChatRowView: View {
                         .lineLimit(1)
                 }
                 
-                Text(viewModel.messagePreview)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
+                HStack(spacing: 8) {
+                    Text(viewModel.messagePreview)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+
+                    Spacer(minLength: 8)
+
+                    if viewModel.hasUnreadMessages {
+                        Circle()
+                            .fill(Color.accentColor)
+                            .frame(width: 10, height: 10)
+                            .accessibilityLabel("Unread message")
+                    }
+                }
             }
         }
         .padding(.vertical, 6)

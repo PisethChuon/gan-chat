@@ -6,6 +6,7 @@ import Observation
 final class ChatViewModel {
     let conversationID: String
     let currentUserID: String
+    let recipientID: String
     let recipientName: String
 
     var messageText = ""
@@ -31,12 +32,14 @@ final class ChatViewModel {
     init(
         conversation: Conversation,
         currentUserID: String,
+        recipientID: String,
         recipientName: String,
         repository: any MessageRepository =
             FirestoreMessageRepository.shared
     ) {
         conversationID = conversation.id
         self.currentUserID = currentUserID
+        self.recipientID = recipientID
         self.recipientName = recipientName
         self.repository = repository
     }
@@ -49,9 +52,15 @@ final class ChatViewModel {
         errorMessage = ""
         let repository = repository
         let conversationID = conversationID
+        let currentUserID = currentUserID
 
         observationTask = Task { [weak self] in
             do {
+                try await repository.markConversationAsRead(
+                    conversationID: conversationID,
+                    userID: currentUserID
+                )
+
                 let stream = repository.observeMessages(
                     in: conversationID
                 )
@@ -59,6 +68,15 @@ final class ChatViewModel {
                 for try await messages in stream {
                     try Task.checkCancellation()
                     self?.messages = messages
+
+                    if messages.contains(
+                        where: { $0.senderID != currentUserID }
+                    ) {
+                        try await repository.markConversationAsRead(
+                            conversationID: conversationID,
+                            userID: currentUserID
+                        )
+                    }
                 }
             } catch {
                 guard !Task.isCancelled else {
@@ -95,7 +113,10 @@ final class ChatViewModel {
 
         sendTask = Task { [weak self] in
             do {
-                try await repository.send(message)
+                try await repository.send(
+                    message,
+                    recipientID: recipientID
+                )
             } catch {
                 guard !Task.isCancelled else {
                     return

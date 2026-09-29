@@ -15,6 +15,7 @@ struct Conversation {
     let updatedAt: Date?
     let lastMessageText: String?
     let lastMessageSenderID: String?
+    let unreadParticipantIDs: [String]
 
     nonisolated init(
         id: String,
@@ -22,7 +23,8 @@ struct Conversation {
         createdAt: Date?,
         updatedAt: Date? = nil,
         lastMessageText: String? = nil,
-        lastMessageSenderID: String? = nil
+        lastMessageSenderID: String? = nil,
+        unreadParticipantIDs: [String] = []
     ) {
         self.id = id
         self.participantIDs = participantIDs
@@ -30,9 +32,14 @@ struct Conversation {
         self.updatedAt = updatedAt
         self.lastMessageText = lastMessageText
         self.lastMessageSenderID = lastMessageSenderID
+        self.unreadParticipantIDs = unreadParticipantIDs
     }
     
     func includes(userID: String) -> Bool {
         participantIDs.contains(userID)
+    }
+
+    func isUnread(for userID: String) -> Bool {
+        unreadParticipantIDs.contains(userID)
     }
 }

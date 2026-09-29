@@ -172,7 +172,9 @@ final class FirestoreConversationRepository: ConversationRepository {
             createdAt: (data["createdAt"] as? Timestamp)?.dateValue(),
             updatedAt: (data["updatedAt"] as? Timestamp)?.dateValue(),
             lastMessageText: data["lastMessageText"] as? String,
-            lastMessageSenderID: data["lastMessageSenderID"] as? String
+            lastMessageSenderID: data["lastMessageSenderID"] as? String,
+            unreadParticipantIDs:
+                data["unreadParticipantIDs"] as? [String] ?? []
         )
     }
     

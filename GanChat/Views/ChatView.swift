@@ -14,6 +14,7 @@ struct ChatView: View {
             initialValue: ChatViewModel(
                 conversation: conversation,
                 currentUserID: currentUserID,
+                recipientID: recipient.id,
                 recipientName: recipient.username,
                 repository: repository
             )
@@ -182,7 +183,15 @@ private struct MessageBubbleView: View {
 
 #if DEBUG
 private final class PreviewMessageRepository: MessageRepository {
-    func send(_ message: ChatMessage) async throws {}
+    func send(
+        _ message: ChatMessage,
+        recipientID: String
+    ) async throws {}
+
+    func markConversationAsRead(
+        conversationID: String,
+        userID: String
+    ) async throws {}
 
     func observeMessages(
         in conversationID: String

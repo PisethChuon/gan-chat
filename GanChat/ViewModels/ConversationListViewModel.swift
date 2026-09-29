@@ -30,6 +30,9 @@ final class ConversationListViewModel {
                 messagePreview: preview,
                 timestamp: Self.formatTimestamp(
                     conversation.updatedAt ?? conversation.createdAt
+                ),
+                hasUnreadMessages: conversation.isUnread(
+                    for: currentUserID
                 )
             )
         }

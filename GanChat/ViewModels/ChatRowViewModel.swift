@@ -12,6 +12,21 @@ struct ChatRowViewModel: Identifiable {
     let name: String
     let messagePreview: String
     let timestamp: String
+    let hasUnreadMessages: Bool
+
+    init(
+        id: String,
+        name: String,
+        messagePreview: String,
+        timestamp: String,
+        hasUnreadMessages: Bool = false
+    ) {
+        self.id = id
+        self.name = name
+        self.messagePreview = messagePreview
+        self.timestamp = timestamp
+        self.hasUnreadMessages = hasUnreadMessages
+    }
     
     var initials: String {
         let words = name.split(separator: " ")
